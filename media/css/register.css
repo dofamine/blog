@@ -1,0 +1,52 @@
+.form {
+    width: 500px;
+    margin: 10px auto;
+    background: #009688;
+    padding: 50px 20px 20px 20px;
+    color: #fff;
+    position: relative;
+}
+.form input[type="text"],
+.form input[type="password"],
+.form input[type="email"],
+.form input[type="tel"]
+{
+    width: 300px;
+    height: 25px;
+    line-height: 25px;
+}
+.form dl dt {
+    float: left;
+    width: 100px;
+    margin-bottom: 20px;
+}
+.form dl dd {
+    margin-bottom: 20px;
+}
+.form label {
+    margin-bottom: 5px;
+}
+.form input[type="submit"]{
+    bottom: 15px;
+    right: 15px;
+    position: absolute;
+    height: 30px;
+    line-height: 30px;
+    width: 100px;
+    text-align: center;
+    border: none;
+    color: white;
+    background: #00897b;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+}
+.form input[type="submit"]:hover {
+    text-shadow: 0 0 5px white;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.5) inset;
+    cursor: pointer;
+}
+.error {
+    position: absolute;
+    font-weight: 600;
+    font-size: 20px;
+    top: 10px;
+}
