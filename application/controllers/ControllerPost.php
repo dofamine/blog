@@ -15,6 +15,7 @@ class ControllerPost extends Controller
         $this->menuCtrl = new ControllerMenu();
         $this->menuCtrl->rightMenu();
     }
+
     private static function is_empty()
     {
         foreach (func_get_args() as $arg) {
