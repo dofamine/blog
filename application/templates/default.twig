@@ -14,8 +14,8 @@
         <h1>ProgBlog</h1>
         {% if not auth.isAuth() %}
             <form action="/login" class="logform" method="post">
-                {% if error is defined %}
-                    <p class="error">{{ error }}</p>
+                {% if errorLogin is defined %}
+                    <p class="error">{{ errorLogin }}</p>
                 {% endif %}
                 <dl>
                     <dt>Login:</dt>

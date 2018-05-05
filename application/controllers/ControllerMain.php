@@ -22,7 +22,7 @@ class ControllerMain extends Controller
         $view->useTemplate();
         $view->posts = ModelPost::instance()->getTop(5);
         if(!empty($_SESSION["login_error"])){
-            $view->error = $_SESSION["login_error"];
+            $view->errorLogin = $_SESSION["login_error"];
             $view->login = $_SESSION["login"];
             unset($_SESSION["login_error"]);
             unset($_SESSION["login"]);

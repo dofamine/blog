@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/media/css/register.css">
+<script src="/media/js/photo.js"></script>
 <div class="form">
     <form action="/regaction" method="post" enctype="multipart/form-data">
         {% if error %}
@@ -15,8 +16,10 @@
             <dd><input type="email" name="mail" id="mail" value="{{ old.mail ? old.mail : "" }}"></dd>
             <dt><label for="phone">Phone :</label></dt>
             <dd><input type="tel" name="phone" id="phone" value="{{ old.phone ? old.phone : "" }}"></dd>
-            <dt><label for="photo">Photo:</label></dt>
-            <dd><input type="file" name="photo" id="photo" accept=".png, .jpg, .jpeg"></dd>
+            <dt><label for="photo">add photo</label></dt>
+            <dd>
+                <span class="path"></span>
+                <input type="file" name="photo" id="photo" accept=".png, .jpg, .jpeg" hidden></dd>
             <dt><input type="submit" value="register"></dt>
         </dl>
     </form>

@@ -42,4 +42,14 @@ class ModelImages extends Model
             "name"=>$image->name
         ]);
     }
+
+    public function saveToDir(string $path):int
+    {
+        $type = explode("/",$_FILES["image"]["type"]);
+        $image_type = end($type);
+        $name = md5(time())."_".mt_rand(0,100000)."_".rand(10000,99999).".".$image_type;
+        if (!move_uploaded_file($_FILES["image"]["tmp_name"],MEDIA_PATH.$path.$name))
+            throw new Exception("Error saving image");
+        else return self::instance()->addImage(new Image(MEDIA_URL.$path.$name));
+    }
 }

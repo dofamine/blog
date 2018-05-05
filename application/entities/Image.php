@@ -2,7 +2,6 @@
 
 namespace Entity;
 
-
 class Image extends Entity
 {
     public $id,$name,$url;

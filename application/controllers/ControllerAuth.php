@@ -23,6 +23,7 @@ class ControllerAuth extends Controller
         $pass_c = trim(@$_POST["conf"]);
         $mail = trim(@$_POST["mail"]);
         $phone = trim(@$_POST["phone"]);
+        $img = @$_POST["photo"];
         try {
             if (self::is_empty($login, $pass, $pass_c, $mail, $phone))
                 throw new Exception("Enter all fields");

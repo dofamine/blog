@@ -58,14 +58,10 @@ class ControllerPost extends Controller
             if (self::is_empty(trim(@$_POST["header"]), trim(@$_POST["text"]), trim(@$_POST["category"])))
                 throw new Exception("Enter all fields please");
             $user = ModuleAuth::instance()->getUser();
-            if ($_FILES["image"]["size"]>0){
-                $type = explode("/",$_FILES["image"]["type"]);
-                $image_type = end($type);
-                $name = time()."_".$user["id"]."_".rand(10000,99999).".".$image_type;
-                if (!move_uploaded_file($_FILES["image"]["tmp_name"],MEDIA_PATH."images/blog_images/{$name}"))
-                    throw new Exception("Error saving image");
-                $image_id = ModelImages::instance()->addImage(new \Entity\Image(MEDIA_URL."images/blog_images/".$name));
-            }
+
+            if ($_FILES["image"]["size"]>0)
+                $image_id = ModelImages::instance()->saveToDir("images/blog_images/");
+
             ModelPost::instance()->addPost(new \Entity\Post(
                 trim($_POST["header"]),
                 trim($_POST["text"]),
