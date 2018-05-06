@@ -25,6 +25,7 @@ class View
     {
         if (self::$twig === null || self::$twig_temp === null) self::twigInit();
         $this->params["auth"] = ModuleAuth::instance();
+        $this->params["views_path"] = VIEWS_PATH;
         $this->view = $name;
     }
 

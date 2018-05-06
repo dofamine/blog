@@ -20,13 +20,12 @@ class ControllerMain extends Controller
     {
         $view = new View("main");
         $view->useTemplate();
-        $view->posts = ModelPost::instance()->getTop(5);
-        if(!empty($_SESSION["login_error"])){
-            $view->errorLogin = $_SESSION["login_error"];
-            $view->login = $_SESSION["login"];
-            unset($_SESSION["login_error"]);
-            unset($_SESSION["login"]);
+        $rightSide = new ControllerHeaderRightSide();
+        if (!ModuleAuth::instance()->isAuth()){
+            $rightSide->logformInit();
+            $view->rightSide = $rightSide->getResponse();
         }
+        $view->posts = ModelPost::instance()->getTop(5);
         $view->rightmenu = $this->menuCtrl->getResponse();
         $this->response($view);
     }

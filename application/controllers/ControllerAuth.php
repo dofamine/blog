@@ -23,15 +23,21 @@ class ControllerAuth extends Controller
         $pass_c = trim(@$_POST["conf"]);
         $mail = trim(@$_POST["mail"]);
         $phone = trim(@$_POST["phone"]);
-        $img = @$_POST["photo"];
+        $photo = @$_FILES["photo"];
         try {
             if (self::is_empty($login, $pass, $pass_c, $mail, $phone))
                 throw new Exception("Enter all fields");
             if ($pass_c !== $pass) throw new Exception("Passwords are not similar");
             try {
-                ModuleAuth::instance()->register($login, $pass, ["email" => $mail, "phone" => $phone]);
+                if ($photo["size"] > 0) {
+                    $image_id = ModelImages::instance()->saveToDir("avatars/", $photo);
+                }
+                ModuleAuth::instance()->register($login, $pass,
+                    ["email" => $mail, "phone" => $phone, "image_id" => @$image_id]);
                 $this->redirect(URLROOT);
-            } catch (Exception $e) {throw new Exception($e->getMessage());}
+            } catch (Exception $e) {
+                throw new Exception($e->getMessage());
+            }
         } catch (Exception $e) {
             $_SESSION["validate_error"] = $e->getMessage();
             $_SESSION["old"] = [
@@ -39,7 +45,7 @@ class ControllerAuth extends Controller
                 "mail" => @$_POST["mail"],
                 "phone" => @$_POST["phone"]
             ];
-            $this->redirect(URLROOT."register");
+            $this->redirect(URLROOT . "register");
         }
     }
 
@@ -49,7 +55,7 @@ class ControllerAuth extends Controller
         $pass = trim(@$_POST["pass"]);
         $remember = isset($_POST["remember"]);
         try {
-            if (self::is_empty($login,$pass)) throw new Exception("Enter all fields to log in");
+            if (self::is_empty($login, $pass)) throw new Exception("Enter all fields to log in");
             ModuleAuth::instance()->login($login, $pass, $remember);
         } catch (Exception $e) {
             $_SESSION["login_error"] = $e->getMessage();

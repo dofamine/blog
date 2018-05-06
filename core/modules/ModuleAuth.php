@@ -35,6 +35,7 @@ class ModuleAuth
     public function register(string $login, string $pass, array $data = []): int
     {
         if ($this->db->users->countOfWhere("login=?", [$login]) > 0) throw new Exception("User with this login already exist");
+        if ($this->db->users->countOfWhere("email=?", [$data["email"]]) > 0) throw new Exception("This email already used");
         $data["login"] = $login;
         $data["password"] = $this->hasher->passHash($pass);
         return $this->db->users->insert($data);

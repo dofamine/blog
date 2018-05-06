@@ -12,9 +12,7 @@
 {% for post in posts %}
     <div class="post">
         <h2>{{ post.name }}</h2>
-        <div class="image"
-             style="background-image: url({% set img = post.getImage() %}{{ img ? img.url : 'http://www.osseomatrix.com/wp-content/uploads/2014/08/sky.jpg' }});"
-        ></div>
+        <div class="image" style="background-image: url({% set img = post.getImage() %}{{ img ? img.url : 'http://www.osseomatrix.com/wp-content/uploads/2014/08/sky.jpg' }});"></div>
         <div class="details">
             {{ post.text|raw }}
         </div>

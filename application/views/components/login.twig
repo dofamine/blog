@@ -1,0 +1,14 @@
+<form action="/login" class="logform" method="post">
+    {% if errorLogin is defined %}
+        <p class="error">{{ errorLogin }}</p>
+    {% endif %}
+    <dl>
+        <dt>Login:</dt>
+        <dd><input type="text" name="login" value="{{ login?login:'' }}"></dd>
+        <dt>Password:</dt>
+        <dd><input type="password" name="pass"></dd>
+        <dt><label for="remember">Remeber me</label></dt>
+        <dd><input type="checkbox" name="remember" id="remember"></dd>
+        <dd class="submit"><input type="submit" value="login"></dd>
+    </dl>
+</form>

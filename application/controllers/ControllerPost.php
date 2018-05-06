@@ -58,9 +58,9 @@ class ControllerPost extends Controller
             if (self::is_empty(trim(@$_POST["header"]), trim(@$_POST["text"]), trim(@$_POST["category"])))
                 throw new Exception("Enter all fields please");
             $user = ModuleAuth::instance()->getUser();
-
-            if ($_FILES["image"]["size"]>0)
-                $image_id = ModelImages::instance()->saveToDir("images/blog_images/");
+            $img = $_FILES["image"];
+            if ($img["size"] > 0)
+                $image_id = ModelImages::instance()->saveToDir("blog_images/",$img);
 
             ModelPost::instance()->addPost(new \Entity\Post(
                 trim($_POST["header"]),
