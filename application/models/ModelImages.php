@@ -50,6 +50,28 @@ class ModelImages extends Model
         $name = md5(time())."_".mt_rand(0,100000)."_".rand(10000,99999).".".$image_type;
         if (!move_uploaded_file($file["tmp_name"],MEDIA_PATH."images/".$path.$name))
             throw new Exception("Error saving image");
-        else return self::instance()->addImage(new Image(MEDIA_URL."images/".$path.$name));
+        else return $this->addImage(new Image(MEDIA_URL."images/".$path.$name));
+    }
+
+    public function resize(string $path_from,string $path_to,int $width,int $height):string
+    {
+        $img = imagecreatefromjpeg("0059.jpg");
+        $img_small = imagecreatetruecolor(5000, 5000);
+        $size = getimagesize("0059.jpg");
+
+        $w = $size[0];
+        $h = $size[1];
+
+        $min = min($w, $h);
+        $dx = ($w - $min) / 2;
+        $dy = ($h - $min) / 2;
+
+        imagecopyresampled($img_small, $img,
+            0, 0, $dx, $dy,
+            5000, 5000, $min, $min);
+
+
+        header("Content-Type:image/jpeg");
+        imagejpeg($img_small);
     }
 }

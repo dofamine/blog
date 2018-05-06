@@ -11,9 +11,17 @@ namespace Entity;
 
 class Post extends Entity
 {
-    public $id,$name,$text,$likes,$views,$time,$users_id,$categories_id,$image_id;
+    public $id, $name, $text, $likes, $views, $time, $users_id, $categories_id, $image_id;
 
-    public function __construct(string $name="",string $text="",int $time=0,int $users_id=0,int $categories_id=0,int $image_id=null,int $likes=0,int $views=0)
+    public function __construct(
+        string $name = null,
+        string $text = null,
+        int $time = null,
+        int $users_id = null,
+        int $categories_id = null,
+        int $image_id = null,
+        int $likes = 0,
+        int $views = 0)
     {
         $this->name = $name;
         $this->text = $text;
@@ -31,12 +39,13 @@ class Post extends Entity
         return \ModelImages::instance()->getById($this->image_id);
     }
 
-    public function getCategory():Category
+    public function getCategory(): Category
     {
         return \ModelCategories::instance()->getById($this->categories_id);
     }
+
     public static function fromAssocies(array $array): array
     {
-        return self::_fromAssocies($array,self::class);
+        return self::_fromAssocies($array, self::class);
     }
 }

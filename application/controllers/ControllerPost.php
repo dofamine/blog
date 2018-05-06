@@ -60,7 +60,7 @@ class ControllerPost extends Controller
             $user = ModuleAuth::instance()->getUser();
             $img = $_FILES["image"];
             if ($img["size"] > 0)
-                $image_id = ModelImages::instance()->saveToDir("blog_images/",$img);
+                $image_id = ModelImages::instance()->saveToDir("blog_images/",$img,true);
 
             ModelPost::instance()->addPost(new \Entity\Post(
                 trim($_POST["header"]),

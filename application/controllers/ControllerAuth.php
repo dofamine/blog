@@ -29,12 +29,17 @@ class ControllerAuth extends Controller
                 throw new Exception("Enter all fields");
             if ($pass_c !== $pass) throw new Exception("Passwords are not similar");
             try {
-                if ($photo["size"] > 0) {
-                    $image_id = ModelImages::instance()->saveToDir("avatars/", $photo);
-                }
                 ModuleAuth::instance()->register($login, $pass,
-                    ["email" => $mail, "phone" => $phone, "image_id" => @$image_id]);
-                $this->redirect(URLROOT);
+                    ["email" => $mail, "phone" => $phone]);
+                echo "5";
+                if ($photo["size"] > 0) {
+                    $image_id = ModelImages::instance()->saveToDir("avatars/avatar_source", $photo);
+                    $path = ModelImages::instance()->getById($image_id)["url"];
+                    $photo_min_path = ModelImages::instance()->resize($path,"avatars/avatar_min",100,100);
+                    $image_id_min = ModelImages::instance()->addImage(new \Entity\Image($photo_min_path));
+
+                }
+//                $this->redirect(URLROOT);
             } catch (Exception $e) {
                 throw new Exception($e->getMessage());
             }

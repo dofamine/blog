@@ -48,8 +48,8 @@ class ModelPost extends Model
         ]);
     }
 
-    public function getTop(int $n)
+    public function getTop(int $n):array
     {
-        return Post::fromAssocies($this->db->posts->limit($n)->desc()->getAllWhere());
+        return Post::fromAssocies($this->db->posts->limit(5)->desc()->all());
     }
 }

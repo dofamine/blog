@@ -19,4 +19,12 @@ class ControllerHeaderRightSide extends Controller
         }
         $this->response($view);
     }
+
+    public function userbarInit()
+    {
+        $view = new View("components/userInterface");
+        $user = ModuleAuth::instance()->getUser();
+        if ($user["image_id"]) $view->photo = ModelImages::instance()->getById((int)$user["image_id"]);
+        $this->response($view);
+    }
 }

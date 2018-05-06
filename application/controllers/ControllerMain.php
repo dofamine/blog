@@ -23,8 +23,10 @@ class ControllerMain extends Controller
         $rightSide = new ControllerHeaderRightSide();
         if (!ModuleAuth::instance()->isAuth()){
             $rightSide->logformInit();
-            $view->rightSide = $rightSide->getResponse();
+        } else {
+            $rightSide->userbarInit();
         }
+        $view->rightSide = $rightSide->getResponse();
         $view->posts = ModelPost::instance()->getTop(5);
         $view->rightmenu = $this->menuCtrl->getResponse();
         $this->response($view);
