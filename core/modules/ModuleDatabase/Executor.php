@@ -124,7 +124,7 @@ class Executor
         return $this->dbh->lastInsertId();
     }
 
-    public function getAllWhere(string $where = "1", array $data = []):array
+    public function getAllWhere(string $where = "1", array $data = []): array
     {
         $result = $this->_execute("SELECT * FROM `{$this->table}` WHERE {$where}", $data)->fetchAll();
         return $result ? $result : [];
@@ -140,13 +140,13 @@ class Executor
         $this->deleteWhere("id=?", [$id]);
     }
 
-    public function getFirstWhere(string $where, array $data = []):array
+    public function getFirstWhere(string $where, array $data = []): array
     {
         $result = $this->_execute("SELECT * FROM `{$this->table}` WHERE {$where}", $data)->fetch();
         return $result ? $result : [];
     }
 
-    public function getElementById(int $id)
+    public function getElementById(int $id):array
     {
         return $this->getFirstWhere("id=?", [$id]);
     }
@@ -160,7 +160,7 @@ class Executor
         $this->_execute($query, $data);
     }
 
-    public function countOfWhere(string $where = "1", array $data = []):int
+    public function countOfWhere(string $where = "1", array $data = []): int
     {
         return (int)$this->_execute("SELECT COUNT(*) FROM `{$this->table}` WHERE {$where}", $data)->fetchColumn();
     }

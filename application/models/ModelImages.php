@@ -53,25 +53,42 @@ class ModelImages extends Model
         else return $this->addImage(new Image(MEDIA_URL."images/".$path.$name));
     }
 
-    public function resize(string $path_from,string $path_to,int $width,int $height):string
+    public function addAvatar(int $user_id,array $photo)
     {
-        $img = imagecreatefromjpeg("0059.jpg");
-        $img_small = imagecreatetruecolor(5000, 5000);
-        $size = getimagesize("0059.jpg");
+        $img_source_id = ModelImages::instance()->saveToDir("avatars/avatar_source/",$photo);
+        $source_path = ModelImages::instance()->getById($img_source_id)->url;
+        $min_path = ModelImages::instance()->createResized($source_path,"avatars/avatar_min/",100,100);
+        ModelUsersProfile::instance()->add(new \Entity\UserProfile(
+            $user_id,
+            null,
+            null,
+            $img_source_id,
+            ModelImages::instance()->addImage(new \Entity\Image($min_path))
+        ));
+    }
+
+    public function createResized(string $path_from,string $path_to,int $width,int $height):string
+    {
+        $type = end(explode(".",$path_from));
+        if ($type === "jpg" || $type === "jpeg" ) $img = imagecreatefromjpeg(DOCROOT.$path_from);
+        elseif ($type === "png") $img = imagecreatefrompng(DOCROOT.$path_from);
+        else throw new Exception("Incorrect file to resize");
+
+        $img_small = imagecreatetruecolor($width, $height);
+        $size = getimagesize(DOCROOT.$path_from);
 
         $w = $size[0];
         $h = $size[1];
 
-        $min = min($w, $h);
-        $dx = ($w - $min) / 2;
-        $dy = ($h - $min) / 2;
+        $name = md5(time())."_".mt_rand(0,100000)."_".rand(10000,99999).".".$type;
+        $url = MEDIA_URL."images/".$path_to.$name;
+        $path_to = MEDIA_PATH."images/".$path_to.$name;
 
         imagecopyresampled($img_small, $img,
-            0, 0, $dx, $dy,
-            5000, 5000, $min, $min);
+            0, 0, 0, 0,
+            $width, $height, $w, $h);
 
-
-        header("Content-Type:image/jpeg");
-        imagejpeg($img_small);
+        $type === "png" ? imagepng($img_small,$path_to) : imagejpeg($img_small,$path_to);
+        return $url;
     }
 }

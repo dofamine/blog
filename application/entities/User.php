@@ -11,22 +11,20 @@ namespace Entity;
 
 class User extends Entity
 {
-    public $id,$login,$password,$email,$phone,$image_id,$image_min_id;
+    public $id,$login,$password,$email,$phone,$profile_id;
 
     public function __construct(
         string $login = null,
         string $password = null,
         string $email = null,
         string $phone = null,
-        int $image_id = null,
-        int $image_min_id = null)
+        int $profile_id = null)
     {
         $this->login = $login;
         $this->password = $password;
         $this->email = $email;
         $this->phone = $phone;
-        $this->image_id = $image_id;
-        $this->image_min_id = $image_min_id;
+        $this->profile_id = $profile_id;
     }
 
     public static function fromAssocies(array $array): array

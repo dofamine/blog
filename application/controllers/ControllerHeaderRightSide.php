@@ -11,7 +11,7 @@ class ControllerHeaderRightSide extends Controller
     public function logformInit()
     {
         $view = new View("components/login");
-        if(!empty($_SESSION["login_error"])){
+        if (!empty($_SESSION["login_error"])) {
             $view->errorLogin = $_SESSION["login_error"];
             $view->login = $_SESSION["login"];
             unset($_SESSION["login_error"]);
@@ -23,8 +23,10 @@ class ControllerHeaderRightSide extends Controller
     public function userbarInit()
     {
         $view = new View("components/userInterface");
-        $user = ModuleAuth::instance()->getUser();
-        if ($user["image_id"]) $view->photo = ModelImages::instance()->getById((int)$user["image_id"]);
+        $user_id = (int)ModuleAuth::instance()->getUser()["id"];
+        $profile = ModelUsersProfile::instance()->getById($user_id);
+        if ($profile->avatar_min_id)
+            $view->avatar = ModelImages::instance()->getById((int)$profile->avatar_min_id);
         $this->response($view);
     }
 }
