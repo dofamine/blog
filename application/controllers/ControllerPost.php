@@ -9,11 +9,13 @@
 class ControllerPost extends Controller
 {
     private $menuCtrl;
+    private $rightSide;
 
     public function __construct()
     {
         $this->menuCtrl = new ControllerMenu();
         $this->menuCtrl->rightMenu();
+        $this->rightSide = new ControllerHeaderRightSide();
     }
 
     private static function is_empty()
@@ -30,6 +32,8 @@ class ControllerPost extends Controller
         $view = new View("posts/posts");
         $view->useTemplate();
         $view->rightmenu = $this->menuCtrl->getResponse();
+        $this->rightSide->userbarInit();
+        $view->rightSide =$this->rightSide->getResponse();
         $user = ModuleAuth::instance()->getUser();
         $view->posts = ModelPost::instance()->getAllByUserId((int)$user["id"]);
         $this->response($view);
@@ -41,6 +45,8 @@ class ControllerPost extends Controller
         $view = new View("posts/addform");
         $view->categories = ModelCategories::instance()->getAll();
         $view->useTemplate();
+        $this->rightSide->userbarInit();
+        $view->rightSide =$this->rightSide->getResponse();
         $view->rightmenu = $this->menuCtrl->getResponse();
         if (!empty($_SESSION["addpost_error"])) {
             $view->error = $_SESSION["addpost_error"];

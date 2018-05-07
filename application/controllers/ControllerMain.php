@@ -9,24 +9,25 @@
 class ControllerMain extends Controller
 {
     private $menuCtrl;
+    private $rightSide;
 
     public function __construct()
     {
         $this->menuCtrl = new ControllerMenu();
         $this->menuCtrl->rightMenu();
+        $this->rightSide = new ControllerHeaderRightSide();
     }
 
     public function action_index()
     {
-        $view = new View("main");
+        $view = new View("posts/posts");
         $view->useTemplate();
-        $rightSide = new ControllerHeaderRightSide();
         if (!ModuleAuth::instance()->isAuth()){
-            $rightSide->logformInit();
+            $this->rightSide->logformInit();
         } else {
-            $rightSide->userbarInit();
+            $this->rightSide->userbarInit();
         }
-        $view->rightSide = $rightSide->getResponse();
+        $view->rightSide = $this->rightSide->getResponse();
         $view->posts = ModelPost::instance()->getTop(5);
         $view->rightmenu = $this->menuCtrl->getResponse();
         $this->response($view);
@@ -34,8 +35,11 @@ class ControllerMain extends Controller
 
     public function action_register()
     {
+        if (ModuleAuth::instance()->isAuth()) $this->redirect("Location: ".$_SERVER["HTTP_REFERER"]);
         $view = new View("register");
         $view->useTemplate();
+        $this->rightSide->logformInit();
+        $view->rightSide = $this->rightSide->getResponse();
         $view->rightmenu = $this->menuCtrl->getResponse();
         if(!empty($_SESSION["validate_error"])){
             $view->error = $_SESSION["validate_error"];

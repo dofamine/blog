@@ -60,6 +60,11 @@ $router->addRoute(new Route("/categories/{id}",
         "controller" => "menu",
         "action" => "showCategory"
     ]));
+$router->addRoute(new Route("profile",
+    [
+        "controller" => "profile",
+        "action" => "show"
+    ]));
 try {
     $router->run();
 } catch (RouterException $exception) {

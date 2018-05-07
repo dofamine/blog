@@ -24,11 +24,21 @@
                     </ul>
                 </li>
                 <li class="right">
-                    <a href="/post/showall">My Posts</a>
-                    <ul class="postMenu">
-                        <li><a href="/post/new">New Post</a></li>
+                    <a href="#">settings</a>
+                    <ul class="settings">
+                        <li><a href="/profile">Profile</a></li>
                     </ul>
                 </li>
+                <li class="right">
+                    <a href="#">My Posts</a>
+                    <ul class="postMenu">
+                        <li><a href="/post/new">New Post</a></li>
+                        <li><a href="/post/showall">All Posts</a></li>
+                        <li><a href="/post/showpopular">Most popular</a></li>
+                        <li><a href="/post/showpopular">Most liked</a></li>
+                    </ul>
+                </li>
+
             {% else %}
                 <li class="right"><a href="/register">Regestration</a></li>
             {% endif %}
@@ -37,8 +47,8 @@
 </header>
 <div class="content">
     <div class="container">
-        <div class="main">{{ view| raw }}</div>
-        <div class="right">{{ rightmenu|raw }}</div>
+        <div class="main">{{ view | raw }}</div>
+        <div class="right">{{ rightmenu |raw }}</div>
     </div>
 </div>
 <footer>

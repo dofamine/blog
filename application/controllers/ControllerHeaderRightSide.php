@@ -23,10 +23,11 @@ class ControllerHeaderRightSide extends Controller
     public function userbarInit()
     {
         $view = new View("components/userInterface");
-        $user_id = (int)ModuleAuth::instance()->getUser()["id"];
-        $profile = ModelUsersProfile::instance()->getById($user_id);
+        $user = ModuleAuth::instance()->getUser();
+        $profile = ModelUsersProfile::instance()->getById((int)$user["id"]);
         if ($profile->avatar_min_id)
             $view->avatar = ModelImages::instance()->getById((int)$profile->avatar_min_id);
+        $view->user = $user;
         $this->response($view);
     }
 }

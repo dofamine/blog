@@ -1,13 +1,28 @@
 <style>
-    .avtar {
-        width: 100px;
-        height: 100px;
-        background-size: cover;
+    .rightSide {
         position: absolute;
         top: 10px;
         right: 0;
     }
+    .rightSide .avatar {
+        width: 100px;
+        height: 100px;
+        background-size: contain;
+        float: right;
+    }
+    .rightSide h4 {
+        display: inline-block;
+        width: 250px;
+        padding-right: 5px;
+        text-align: right;
+        overflow: hidden;
+        word-wrap: break-word;
+    }
 </style>
-<div class="avtar"
-    style="background-image: url('{{ avatar ? avatar.url : "https://azmlm.com/wp-content/themes/pinboard/images/no_avatar.gif.pagespeed.ce.KcNdUG1BVO.gif" }}')"
-></div>
+
+<div class="rightSide">
+    <h4>Welcome, {{ user.login }}</h4>
+    <div class="avatar"
+         style="background-image: url('{{ avatar ? avatar.url : "https://azmlm.com/wp-content/themes/pinboard/images/no_avatar.gif.pagespeed.ce.KcNdUG1BVO.gif" }}')"
+    ></div>
+</div>

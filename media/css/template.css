@@ -36,7 +36,7 @@ header {
     list-style: none;
     position: absolute;
     z-index: 5;
-    background: rgba(0,137,123,0.7);
+    background: rgba(0,137,123,1);
     display: none;
 }
 .nav>li.right>ul.logMenu {
@@ -44,8 +44,12 @@ header {
     right: 0;
 }
 .nav>li.right>ul.postMenu {
-    width: 250px;
-    left: -40px;
+    width: 140px;
+    left: -22px;
+}
+.nav>li.right>ul.settings {
+    width: 140px;
+    left: -20px;
 }
 .nav>li.right:hover>ul{
     display: block;
@@ -57,7 +61,7 @@ header {
     color: white;
     text-decoration: none;
     display: inline-block;
-    width: 100%;
+    width: 95%;
 }
 .nav>li>a{
     height: 50px;
