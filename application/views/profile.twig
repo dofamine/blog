@@ -1,13 +1,56 @@
-<style></style>
-<form action="profile/addinfo">
+<link rel="stylesheet" href="/media/css/register.css">
+<style>
+    .img {
+        width: 75px;
+        height: 75px;
+        background-size: cover;
+        background: #000;
+    }
+    .form label[for="photo"] {
+        left: 130px;
+        margin-bottom: 0;
+        top: 70px;
+    }
+</style>
+<script src="/media/js/photo.js"></script>
+<form action="profile/addinfo" method="post" class="form">
     <dl>
-        <dt></dt>
-        <dd></dd>
-        <dt></dt>
-        <dd></dd>
-        <dt></dt>
-        <dd></dd>
-        <dt></dt>
-        <dd></dd>
+        <dd>
+            <div class="img" style="background-image: url('{{ profile.avatar_id ? profile.getAvatar_min : '' }}')"></div>
+        </dd>
+        <dt><label for="photo">add photo</label></dt>
+        <dd><span class="path"></span>
+            <input type="file" name="photo" id="photo" accept=".png, .jpg, .jpeg" hidden>
+        </dd>
+        <dt>Name:</dt>
+        <dd><input type="text" name="name" value="{{ profile.name ? profile.name : "" }}"></dd>
+        <dt>Surname:</dt>
+        <dd><input type="text" name="surname" value="{{ profile.surname ? profile.surname : "" }}"></dd>
+        <dt>Sex:</dt>
+        <dd>
+            <label for="male">male</label>
+            <input type="radio" name="sex" id="male" value="male" {% if profile.sex == 1 %} checked {% endif %}>
+            <label for="female">female</label>
+            <input type="radio" name="sex" id="female" value="female" {% if profile.sex == 0 %} checked {% endif %}>
+        </dd>
+        <dt><label for="">Some information about yourself:</label></dt>
+        <dd><textarea name="about" id="">{{ profile.about ? profile.about : "" }}</textarea></dd>
+        <dt>Your hobbies:</dt>
+        <dd><textarea name="hobby" id="">{{ profile.hobbies ? profile.hobbies : "" }}</textarea></dd>
+        <dt>Country:</dt>
+        <dd>
+            {#for#}
+            <select name="country" id="country">
+                {#<option value="{{ country.id }}">{{ country.name }}</option>#}
+            </select>
+        </dd>
+        <dt>City:</dt>
+        <dd>
+            {#for#}
+            <select name="city" id="city">
+                {#<option value="{{ city.id }}">{{ city.name }}</option>#}
+            </select>
+        </dd>
+        <dt><input type="submit"></dt>
     </dl>
 </form>

@@ -32,14 +32,19 @@ class ModelUsersProfile extends Model
         return $profile;
     }
 
-    public function add(UserProfile $profile): int
+    public function _add(UserProfile $profile): int
     {
         return $this->db->user_profile->insert([
             "id" => $profile->id,
             "about" => $profile->about,
             "hobbies" => $profile->hobbies,
             "avatar_id" => $profile->avatar_id,
-            "avatar_min_id" => $profile->avatar_min_id
+            "avatar_min_id" => $profile->avatar_min_id,
+            "name" => $profile->name,
+            "surname" => $profile->surname,
+            "sex" => $profile->sex,
+            "country" => $profile->country,
+            "city" => $profile->city
         ]);
     }
 
@@ -49,12 +54,38 @@ class ModelUsersProfile extends Model
             "about" => $profile->about,
             "hobbies" => $profile->hobbies,
             "avatar_id" => $profile->avatar_id,
-            "avatar_min_id" => $profile->avatar_min_id
+            "avatar_min_id" => $profile->avatar_min_id,
+            "name" => $profile->name,
+            "surname" => $profile->surname,
+            "sex" => $profile->sex,
+            "country" => $profile->country,
+            "city" => $profile->city
         ]);
     }
 
-    public function update(int $id,string $about,string $hobbies,int $avatar_id,int $avatar_min_id)
+    public function update(int $id,
+                           ?string $about,
+                           ?string $hobbies,
+                           ?int $avatar_id,
+                           ?int $avatar_min_id,
+                           ?string $name,
+                           ?string $surname,
+                           ?int $country,
+                           ?int $city,
+                           ?int $sex)
     {
-        $profile = new UserProfile();
+        $profile = new UserProfile($id,
+            $about,
+            $hobbies,
+            $avatar_id,
+            $avatar_min_id,
+            $name,
+            $surname,
+            $country,
+            $city,
+            $sex
+        );
+        if ($this->db->user_profile->countOfWhere("id=?",[$id]) !== 0) $this->_update($profile);
+        else $this->_add($profile);
     }
 }

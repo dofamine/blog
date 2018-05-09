@@ -65,9 +65,14 @@ $router->addRoute(new Route("profile",
         "controller" => "profile",
         "action" => "show"
     ]));
+$router->addRoute(new Route("profile/addinfo",
+    [
+        "controller" => "profile",
+        "action" => "addinfo"
+    ]));
 try {
     $router->run();
 } catch (RouterException $exception) {
-    $router->redirect404();
     echo $exception->getMessage();
+    $router->redirect404();
 };

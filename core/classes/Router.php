@@ -68,7 +68,7 @@ class Router
         if (!file_exists($controller_path)) throw new RouterException("CONTROLLER {$controller} NOT FOUND");
         require_once $controller_path;
         $controller_instance = new $controller();
-        if (!method_exists($controller_instance, $action)) throw new RouterException("METHOD {$action} IN {$controller_instance} DOES NOT EXIST");
+        if (!method_exists($controller_instance, $action)) throw new RouterException("METHOD {$action} IN {$controller} DOES NOT EXIST");
         $controller_instance->$action();
         $controller_instance->sendResponse();
     }
