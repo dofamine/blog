@@ -32,7 +32,7 @@ class ModelUsersProfile extends Model
         return $profile;
     }
 
-    public function _add(UserProfile $profile): int
+    public function add(UserProfile $profile): int
     {
         return $this->db->user_profile->insert([
             "id" => $profile->id,
@@ -75,8 +75,8 @@ class ModelUsersProfile extends Model
                            ?int $sex)
     {
         $profile = new UserProfile($id,
-            $about,
-            $hobbies,
+            $about ,
+            $hobbies ,
             $avatar_id,
             $avatar_min_id,
             $name,
@@ -86,6 +86,13 @@ class ModelUsersProfile extends Model
             $sex
         );
         if ($this->db->user_profile->countOfWhere("id=?",[$id]) !== 0) $this->_update($profile);
-        else $this->_add($profile);
+        else $this->add($profile);
+    }
+
+    public function addAvatar(int $id,int $img_src, int $img_min)
+    {
+        if ($this->db->user_profile->countOfWhere("id=?",[$id]) !== 0)
+            $this->db->user_profile->updateById($id,["avatar_id"=>$img_src,"avatar_min_id"=>$img_min]);
+        else $this->add(new UserProfile($id,null,null,$img_src,$img_min,null,null,null,null,null));
     }
 }

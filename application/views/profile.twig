@@ -4,7 +4,6 @@
         width: 75px;
         height: 75px;
         background-size: cover;
-        background: #000;
     }
     .form label[for="photo"] {
         left: 130px;
@@ -13,10 +12,11 @@
     }
 </style>
 <script src="/media/js/photo.js"></script>
-<form action="profile/addinfo" method="post" class="form">
+<script src="/media/js/index.js"></script>
+<form action="profile/addinfo" method="post" class="form" enctype="multipart/form-data">
     <dl>
         <dd>
-            <div class="img" style="background-image: url('{{ profile.avatar_id ? profile.getAvatar_min : '' }}')"></div>
+            <div class="img" style="background-image: url('{{ profile.avatar_id ? profile.getAvatar_min : 'https://azmlm.com/wp-content/themes/pinboard/images/no_avatar.gif.pagespeed.ce.KcNdUG1BVO.gif' }}')"></div>
         </dd>
         <dt><label for="photo">add photo</label></dt>
         <dd><span class="path"></span>
@@ -29,9 +29,9 @@
         <dt>Sex:</dt>
         <dd>
             <label for="male">male</label>
-            <input type="radio" name="sex" id="male" value="male" {% if profile.sex == 1 %} checked {% endif %}>
+            <input type="radio" name="sex" id="male" value="1" {% if profile.sex == 1 %} checked {% endif %}>
             <label for="female">female</label>
-            <input type="radio" name="sex" id="female" value="female" {% if profile.sex == 0 %} checked {% endif %}>
+            <input type="radio" name="sex" id="female" value="0" {% if profile.sex == 0 %} checked {% endif %}>
         </dd>
         <dt><label for="">Some information about yourself:</label></dt>
         <dd><textarea name="about" id="">{{ profile.about ? profile.about : "" }}</textarea></dd>
@@ -39,15 +39,15 @@
         <dd><textarea name="hobby" id="">{{ profile.hobbies ? profile.hobbies : "" }}</textarea></dd>
         <dt>Country:</dt>
         <dd>
-            {#for#}
             <select name="country" id="country">
-                {#<option value="{{ country.id }}">{{ country.name }}</option>#}
+                {% for country in countries %}
+                    <option value="{{ country.id }}">{{ country.name }}</option>
+                {% endfor %}
             </select>
         </dd>
         <dt>City:</dt>
         <dd>
-            {#for#}
-            <select name="city" id="city">
+            <select name="city" id="city" disabled>
                 {#<option value="{{ city.id }}">{{ city.name }}</option>#}
             </select>
         </dd>

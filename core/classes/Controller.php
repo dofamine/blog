@@ -6,7 +6,7 @@
  * Time: 14:48
  */
 
-abstract class controller
+abstract class Controller
 {
     private $response;
 

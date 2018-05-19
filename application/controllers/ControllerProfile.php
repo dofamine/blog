@@ -28,22 +28,40 @@ class ControllerProfile extends Controller
         $view->rightSide = $this->rightSide->getResponse();
         $user_id = (int)ModuleAuth::instance()->getUser()["id"];
         $view->profile = ModelUsersProfile::instance()->getById($user_id);
+        $view->countries = ModuleDatabaseConnection::instance()->country->getAllWhere();
         $this->response($view);
     }
 
     public function action_addinfo()
     {
         if (!ModuleAuth::instance()->isAuth()) $this->redirect404();
-        $about = trim($_POST["about"]);
-        $hobby = trim($_POST["hobby"]);
-        $name = trim($_POST["name"]);
-        $surname = trim($_POST["surname"]);
-        $sex = trim($_POST["sex"]);
+        list($about,$hobby,$name,$surname) =
+            $this->trimAll(@$_POST["about"],@$_POST["hobby"],@$_POST["name"],@$_POST["surname"]);
+        $sex = @$_POST["sex"];
+        $photo = $_FILES["photo"];
+        $city = @$_POST["city"];
+        $country = @$_POST["country"];
+        if ($photo["size"] > 0)
+            ModelImages::instance()->addAvatar((int)ModuleAuth::instance()->getUser()["id"], $photo);
         ModelUsersProfile::instance()->update(
             (int)ModuleAuth::instance()->getUser()["id"],
-            $about,$hobby,null,null,
-            $name,$surname,null,null,$sex
+            $about,
+            $hobby,
+            ModelUsersProfile::instance()->getById((int)ModuleAuth::instance()->getUser()["id"])->avatar_id,
+            ModelUsersProfile::instance()->getById((int)ModuleAuth::instance()->getUser()["id"])->avatar_min_id,
+            $name,
+            $surname,
+            (int)$country,
+            (int)$city,
+            (int)$sex
         );
         $this->redirect("/");
     }
+
+    public function trimAll()
+    {
+        $args = func_get_args();
+        return array_map("trim",$args);
+    }
+
 }

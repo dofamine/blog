@@ -55,16 +55,14 @@ class ModelImages extends Model
 
     public function addAvatar(int $user_id,array $photo)
     {
-        $img_source_id = ModelImages::instance()->saveToDir("avatars/avatar_source/",$photo);
-        $source_path = ModelImages::instance()->getById($img_source_id)->url;
-        $min_path = ModelImages::instance()->createResized($source_path,"avatars/avatar_min/",100,100);
-        ModelUsersProfile::instance()->add(new \Entity\UserProfile(
+        $img_source_id = $this->saveToDir("avatars/avatar_source/",$photo);
+        $source_path = $this->getById($img_source_id)->url;
+        $min_path = $this->createResized($source_path,"avatars/avatar_min/",100,100);
+        ModelUsersProfile::instance()->addAvatar(
             $user_id,
-            null,
-            null,
             $img_source_id,
-            ModelImages::instance()->addImage(new \Entity\Image($min_path))
-        ));
+            $this->addImage(new \Entity\Image($min_path))
+        );
     }
 
     public function createResized(string $path_from,string $path_to,int $width,int $height):string

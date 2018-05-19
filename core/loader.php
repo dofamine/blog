@@ -5,6 +5,7 @@ include CLASS_PATH . "Router.php";
 include CLASS_PATH . "View.php";
 include CLASS_PATH . "Model.php";
 include CLASS_PATH . "Entity.php";
+include CLASS_PATH . "Cache.php";
 include CLASS_PATH . "AutoLoader.php";
 session_start();
 spl_autoload_register("Autoloader::load");
@@ -69,6 +70,16 @@ $router->addRoute(new Route("profile/addinfo",
     [
         "controller" => "profile",
         "action" => "addinfo"
+    ]));
+$router->addRoute(new Route("api/cities/{id}",
+    [
+        "controller" => "api",
+        "action" => "getCities"
+    ]));
+$router->addRoute(new Route("api/cache",
+    [
+        "controller" => "api",
+        "action" => "getCache"
     ]));
 try {
     $router->run();

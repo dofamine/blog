@@ -24,9 +24,9 @@ class ModuleDatabaseConnection
         $this->tables = $this->dbh->query("SHOW TABLES")->fetchAll(PDO::FETCH_COLUMN);
     }
 
-    public function __get($name)
+    public function __get(string $name):Executor
     {
-        if(!in_array($name,$this->tables)) throw new Exception("Table {$name} does not exist");
+        if(!in_array($name,$this->tables)) throw new Exception("Table {$name} does not exists");
         return new Executor($this->dbh,$name);
     }
 }
