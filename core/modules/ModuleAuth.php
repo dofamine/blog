@@ -76,8 +76,8 @@ class ModuleAuth
     {
         $user=$this->getUser();
         $roles = $this->db->roles
-            ->join("user_roles","role_id")
-            ->where("user_id",(int)$user["id"])
+            ->join("user_role","roles_id")
+            ->where("users_id",(int)$user["id"])
             ->all();
         foreach ($roles as $role){
             if ($role["name"] === $roles_name) return true;

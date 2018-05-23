@@ -20,22 +20,16 @@ class ControllerApi extends Controller
 
     public function action_getCache()
     {
-//        $memcache = new Memcache();
-////        var_dump($memcache);
-//        $memcache->connect('127.0.0.1', 11211) or die ("Не могу подключиться");
-//        echo "<pre>";
-        print_r(new ReflectionClass(Cache::instance()));
-        //$get_result = $memcache->delete('l1');
-//
-//        $version = $memcache->getVersion();
-//        echo "Версия сервера: " . $version . "<br/>\n";
-//
-//        $tmp = 1;
-//        $memcache->set("l1",$tmp,MEMCACHE_COMPRESSED,0) or die ("Ошибка при сохранении данных на сервере");
-////
-//        $memcache->increment("l1");
-//        echo "Данные из кеша:<br/>\n";
-//
-//        var_dump($memcache->get("l1"));
+
+        $curl = curl_init("https://www.linkedin.com/");
+        curl_setopt($curl,CURLOPT_HEADER,true);
+        curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($curl,CURLOPT_FOLLOWLOCATION,true);
+        curl_setopt($curl,CURLOPT_SSL_VERIFYHOST,false);
+        curl_setopt($curl,CURLOPT_SSL_VERIFYPEER,false);
+        $html = curl_exec($curl);
+        curl_close($curl);
+        echo $html;
+
     }
 }

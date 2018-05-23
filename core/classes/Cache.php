@@ -21,18 +21,25 @@ class Cache {
 
     public static function instance():?self
     {
-        return self::$inst === null ? new self() : self::$inst;
+        return self::$inst === null ? self::$inst = new self() : self::$inst;
     }
 
-    public static function connect(?string $host):self
+    public static function connect(?string $host = null):self
     {
         if (!self::$memcache->connect($host ? $host : '127.0.0.1', 11211))
             throw new Exception("Cannot connect to ${host} server");
         return self::$inst;
     }
 
-    public static function add(string $key, $value)
+    public static function add(string $key, $value):self
     {
+        if (!self::$memcache->add($key,$value))
+            throw new Exception("This key already exists");
+        return self::$inst;
+    }
 
+    public static function get(string $key)
+    {
+        return self::$memcache->get($key);
     }
 }

@@ -256,6 +256,16 @@ class Executor
         return $this;
     }
 
+    public function currentGroupByPage(int $page,int $amount)
+    {
+        return $this->limit($amount)->offset(($page - 1) * $amount)->all();
+    }
+
+    public function pagesCounter(int $amount):int
+    {
+        return ceil($this->countOfWhere()/$amount);
+    }
+
     public function fields(array $table_fields): self
     {
         $this->components["fields"] = array_map(function ($field) {

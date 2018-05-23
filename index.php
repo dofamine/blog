@@ -18,3 +18,6 @@ define("CONFIG_PATH",CORE_PATH."config/");
 define("MODULES_PATH",CORE_PATH."modules/");
 require_once DOCROOT."vendor/autoload.php";
 require_once CORE_PATH."loader.php";
+//$ch = curl_init("http://api.open-notify.org/iss-now.json");
+//echo curl_exec($ch);
+//echo curl_error($ch);

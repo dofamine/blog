@@ -13,7 +13,7 @@ class Category extends Entity
 {
     public $id,$name,$image_id;
 
-    public function __construct(string $name="",int $image_id=0)
+    public function __construct(string $name="",?int $image_id=null)
     {
         $this->name = $name;
         $this->image_id = $image_id;

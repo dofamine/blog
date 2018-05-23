@@ -81,9 +81,14 @@ $router->addRoute(new Route("api/cache",
         "controller" => "api",
         "action" => "getCache"
     ]));
+$router->addRoute(new Route("admin/{?action}/{?id}",
+    [
+        "controller" => "admin",
+        "action" => "index"
+    ]));
 try {
     $router->run();
 } catch (RouterException $exception) {
     echo $exception->getMessage();
-    $router->redirect404();
+//    $router->redirect404();
 };
