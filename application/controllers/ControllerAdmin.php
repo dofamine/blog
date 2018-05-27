@@ -35,7 +35,7 @@ class ControllerAdmin extends Controller
     {
         $id = (int)$this->getUriParam("id");
         $nav = ModuleHtml::instance()->paginator(
-            $id,50,"http://blog/admin/paginator",3);
+            $id,50,"/admin/paginator",10);
         $view = new View("admin/pag");
         $view->page = $id;
         $view->nav = $nav;

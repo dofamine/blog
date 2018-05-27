@@ -8,38 +8,38 @@
 
 class Cache {
     private static $inst = null;
-    private static $memcache = null;
+    private $memcache = null;
 
     private function __construct()
     {
-        self::$memcache = new Memcache();
+        $this->memcache = new Memcache();
     }
 
     private function __sleep(){}
 
     private function __wakeup(){}
 
-    public static function instance():?self
+    public static function instance():self
     {
         return self::$inst === null ? self::$inst = new self() : self::$inst;
     }
 
-    public static function connect(?string $host = null):self
+    public function connect(?string $host = null):self
     {
-        if (!self::$memcache->connect($host ? $host : '127.0.0.1', 11211))
+        if (!$this->memcache->connect($host ? $host : '127.0.0.1', 11211))
             throw new Exception("Cannot connect to ${host} server");
-        return self::$inst;
+        return $this;
     }
 
-    public static function add(string $key, $value):self
+    public function add(string $key, $value):self
     {
-        if (!self::$memcache->add($key,$value))
+        if (!$this->memcache->add($key,$value))
             throw new Exception("This key already exists");
-        return self::$inst;
+        return $this;
     }
 
-    public static function get(string $key)
+    public function get(string $key)
     {
-        return self::$memcache->get($key);
+        return $this->memcache->get($key);
     }
 }
