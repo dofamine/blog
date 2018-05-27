@@ -91,7 +91,7 @@ class ModuleHtml
             }
         }
         if ($page < $total) $links[] = $this->a($base_link . "/" . ($page + 1), "&gt;", "next");
-        return $this->ul($links, "nav", "s");
+        return $this->ul($links, "paginator", "s");
     }
 }
 

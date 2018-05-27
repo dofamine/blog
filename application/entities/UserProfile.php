@@ -11,7 +11,7 @@ namespace Entity;
 
 class UserProfile extends Entity
 {
-    public $id,$about,$hobbies,$avatar_id,$avatar_min_id,$name,$surname,$country,$city,$sex;
+    public $id, $about, $hobbies, $avatar_id, $avatar_min_id, $name, $surname, $country, $city, $sex;
 
     public function __construct(
         int $id = null,
@@ -40,13 +40,19 @@ class UserProfile extends Entity
 
     public static function fromAssocies(array $array): array
     {
-        return self::_fromAssocies($array,self::class);
+        return self::_fromAssocies($array, self::class);
+    }
+
+    public function getCitiesOfCurrentCountry(): array
+    {
+        return \ModuleDatabaseConnection::instance()->cities->getAllWhere("country_id=?", [$this->country]);
     }
 
     public function getAvatar_min()
     {
         return \ModelImages::instance()->getById($this->avatar_min_id)->url;
     }
+
     public function getAvatar()
     {
         return \ModelImages::instance()->getById($this->avatar_id)->url;

@@ -17,16 +17,19 @@ class ControllerMain extends Controller
         $this->menuCtrl->rightMenu();
         $this->rightSide = new ControllerHeaderRightSide();
     }
+    private function rightSide(){
+         if (!ModuleAuth::instance()->isAuth()){
+            $this->rightSide->logformInit();
+        } else {
+            $this->rightSide->userbarInit();
+        }
+    }
 
     public function action_index()
     {
         $view = new View("posts/posts");
         $view->useTemplate();
-        if (!ModuleAuth::instance()->isAuth()){
-            $this->rightSide->logformInit();
-        } else {
-            $this->rightSide->userbarInit();
-        }
+        $this->rightSide();
         $view->rightSide = $this->rightSide->getResponse();
         $view->posts = ModelPost::instance()->getTop(5);
         $view->rightmenu = $this->menuCtrl->getResponse();

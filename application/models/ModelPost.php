@@ -29,16 +29,26 @@ class ModelPost extends Model
         return Post::fromAssocies($this->db->posts->getAllWhere());
     }
 
-    public function getPostsByPage(int $page, int $amount):array
+    public function getPostsByPageAndByUser(int $page, int $amount, int $id): array
     {
-        return Post::fromAssocies($this->db->posts->currentGroupByPage($page,$amount));
+        return Post::fromAssocies($this->db->posts->getGroupByPage($page, $amount)->where('users_id', $id)->desc()->all());
     }
 
-    public function getCountOfPages(int $amount):int
+    public function getPostsByPageAndByCategories(int $page, int $amount, int $id): array
     {
-        return $this->db->posts->pagesCounter($amount);
+        return Post::fromAssocies($this->db->posts->getGroupByPage($page, $amount)->where('categories_id', $id)->desc()->all());
     }
-    
+
+    public function getCountOfPagesByUser(int $amount, int $id): int
+    {
+        return $this->db->posts->pagesCounter($amount, "users_id=?", [$id]);
+    }
+
+    public function getCountOfPagesByCategory(int $amount, int $id): int
+    {
+        return $this->db->posts->pagesCounter($amount, "categories_id=?", [$id]);
+    }
+
     public function getAllByUserId(int $id): array
     {
         return Post::fromAssocies($this->db->posts->getAllWhere("users_id=?", [$id]));
@@ -49,6 +59,11 @@ class ModelPost extends Model
         $post = new Post();
         $post->fromAssoc($this->db->posts->getElementById($id));
         return $post;
+    }
+
+    public function updateViewsById(int $id, int $views): void
+    {
+        $this->db->posts->updateById($id, ["views" => $views]);
     }
 
     public function addPost(Post $post): int
@@ -66,5 +81,23 @@ class ModelPost extends Model
     public function getTop(int $n): array
     {
         return Post::fromAssocies($this->db->posts->limit($n)->desc()->all());
+    }
+
+    public function addLikeToPost(int $user_id, int $post_id)
+    {
+        if ($this->isLikedByUser($user_id, $post_id))
+            $this->db->likes->deleteWhere("user_id=? AND post_id=?", [$user_id, $post_id]);
+        else
+            $this->db->likes->insert(["user_id" => $user_id, "post_id" => $post_id]);
+    }
+
+    public function isLikedByUser(int $user_id, int $post_id): bool
+    {
+        return $this->db->likes->countOfWhere("user_id=? AND post_id=?", [$user_id, $post_id]);
+    }
+
+    public function getAllInCategory(int $category_id): array
+    {
+        return Post::fromAssocies($this->db->posts->getAllWhere("categories_id", [$category_id]));
     }
 }

@@ -5,6 +5,7 @@
         height: 75px;
         background-size: cover;
     }
+
     .form label[for="photo"] {
         left: 130px;
         margin-bottom: 0;
@@ -16,7 +17,8 @@
 <form action="profile/addinfo" method="post" class="form" enctype="multipart/form-data">
     <dl>
         <dd>
-            <div class="img" style="background-image: url('{{ profile.avatar_id ? profile.getAvatar_min : 'https://azmlm.com/wp-content/themes/pinboard/images/no_avatar.gif.pagespeed.ce.KcNdUG1BVO.gif' }}')"></div>
+            <div class="img"
+                 style="background-image: url('{{ profile.avatar_id ? profile.getAvatar_min : 'https://azmlm.com/wp-content/themes/pinboard/images/no_avatar.gif.pagespeed.ce.KcNdUG1BVO.gif' }}')"></div>
         </dd>
         <dt><label for="photo">add photo</label></dt>
         <dd><span class="path"></span>
@@ -41,15 +43,22 @@
         <dd>
             <select name="country" id="country">
                 {% for country in countries %}
-                    <option value="{{ country.id }}">{{ country.name }}</option>
+                    <option value="{{ country.id }}" {{ country.id == profile.country ? "selected" : "" }}>{{ country.name }}</option>
                 {% endfor %}
             </select>
         </dd>
         <dt>City:</dt>
         <dd>
-            <select name="city" id="city" disabled>
-                {#<option value="{{ city.id }}">{{ city.name }}</option>#}
-            </select>
+            {% if profile.city %}
+                <select name="city" id="city">
+                    {% for city in profile.getCitiesOfCurrentCountry()%}
+                        <option value="{{ city.id }}" {{ city.id == profile.city ? "selected" : "" }}>{{ city.name}}</option>
+                    {% endfor %}
+                </select>
+            {% else %}
+                <select name="city" id="city" disabled>
+                </select>
+            {% endif %}
         </dd>
         <dt><input type="submit"></dt>
     </dl>

@@ -1,28 +1,25 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
 <style>
-    .nav {
-        margin: 100px auto;
+    .paginator {
+        display: inline-block;
+        min-width: 200px;
+        margin: 20px 0 20px 40%;
     }
-    .nav *{
+
+    .paginator * {
         display: inline-block;
     }
-    .nav li {
-        min-width:10px;
+
+    .paginator li {
+        min-width: 10px;
         height: 30px;
-        background: #369;
+        background: #00897b;
         margin: 0 5px;
         border-radius: 5px;
         overflow: hidden;
     }
-    .nav li a{
+
+    .paginator li a {
+        box-sizing: border-box;
         color: #fff;
         display: block;
         width: 100%;
@@ -31,16 +28,13 @@
         padding: 5px;
         text-decoration: none;
     }
-    .nav li a.active {
-        background: darkviolet;
-    }
-    h1 {
-        color: #000000;
-        font-size: 100px;
+
+    .paginator li a.active {
+        background: #01eddf;
     }
 </style>
-<body>
+<div class="pagCont">
     {{ nav|raw }}
-    <h1>{{ page }}</h1>
-</body>
-</html>
+</div>
+
+

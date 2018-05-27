@@ -18,12 +18,9 @@ class ControllerAdmin extends Controller
 
     public function __construct()
     {
-        try {
-            ModuleAuth::instance()->hasRole("admin");
-        } catch (Exception $e) {
-//            echo $e->getMessage();
+        if (!ModuleAuth::instance()->isAuth()
+            || !ModuleAuth::instance()->hasRole("admin"))
             $this->redirect404();
-        }
     }
 
     public function action_index()
@@ -35,7 +32,7 @@ class ControllerAdmin extends Controller
     {
         $id = (int)$this->getUriParam("id");
         $nav = ModuleHtml::instance()->paginator(
-            $id,50,"/admin/paginator",10);
+            $id,50,"/admin/paginator",9);
         $view = new View("admin/pag");
         $view->page = $id;
         $view->nav = $nav;

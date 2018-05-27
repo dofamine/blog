@@ -55,7 +55,7 @@ class ModuleAuth
         $this->session->destroySession($deep);
     }
 
-    public function isAuth():?bool
+    public function isAuth():bool
     {
         if ($this->is_auth === null)
             $this->is_auth = $this->session->validateSession();

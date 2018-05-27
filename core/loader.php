@@ -41,7 +41,7 @@ $router->addRoute(new Route("login",
         "controller" => "auth",
         "action" => "login"
     ]));
-$router->addRoute(new Route("post/showall",
+$router->addRoute(new Route("post/showall/{?id}",
     [
         "controller" => "post",
         "action" => "myPosts"
@@ -56,7 +56,17 @@ $router->addRoute(new Route("/post/add",
         "controller" => "post",
         "action" => "add"
     ]));
-$router->addRoute(new Route("/categories/{id}",
+$router->addRoute(new Route("/post/details/{id}",
+    [
+        "controller" => "post",
+        "action" => "details"
+    ]));
+$router->addRoute(new Route("/post/like/{id}",
+    [
+        "controller" => "post",
+        "action" => "like"
+    ]));
+$router->addRoute(new Route("/categories/{id}/{?page}",
     [
         "controller" => "menu",
         "action" => "showCategory"

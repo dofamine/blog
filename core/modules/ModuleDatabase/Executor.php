@@ -35,7 +35,7 @@ class Executor
         return $stmt;
     }
 
-    private function _condition(string $type, string $field, string $sign, $value = null, bool $native): array
+    private function _condition(string $type, string $field, $sign, $value = null, bool $native): array
     {
         if ($value === null) {
             $value = $sign;
@@ -180,7 +180,7 @@ class Executor
         return $this->_join($table, $field_far, $field, $cur_table, "RIGHT");
     }
 
-    public function where(string $field, string $sign, string $value = null, bool $native = false): self
+    public function where(string $field, $sign, $value = null, bool $native = false): self
     {
         $this->components["where"][] = $this->_condition("", $field, $sign, $value, $native);
         return $this;
@@ -256,14 +256,15 @@ class Executor
         return $this;
     }
 
-    public function currentGroupByPage(int $page,int $amount)
+    public function getGroupByPage(int $page,int $amount):self
     {
-        return $this->limit($amount)->offset(($page - 1) * $amount)->all();
+        $this->limit($amount)->offset(($page - 1) * $amount);
+        return $this;
     }
 
-    public function pagesCounter(int $amount):int
+    public function pagesCounter(int $amount,string $condition,array $data):int
     {
-        return ceil($this->countOfWhere()/$amount);
+        return ceil($this->countOfWhere($condition,$data)/$amount);
     }
 
     public function fields(array $table_fields): self

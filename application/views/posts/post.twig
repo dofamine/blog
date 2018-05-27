@@ -6,11 +6,13 @@
         font-size: 50px;
         margin-bottom: 10px;
     }
+
     .post {
         margin-bottom: 50px;
         word-break: break-all;
-        padding-right:5px;
+        padding-right: 5px;
     }
+
     .post .image {
         height: 250px;
         width: 100%;
@@ -18,12 +20,8 @@
         background-size: cover;
         position: relative;
     }
-    .post .details {
-        max-height: 200px;
-        overflow: hidden;
-        padding-bottom: 50px;
-    }
-    .post .image ul{
+
+    .post .image ul {
         position: absolute;
         bottom: 0;
         display: flex;
@@ -32,9 +30,11 @@
         min-width: 100px;
         right: 0;
     }
+
     .post .image ul li {
         padding: 5px;
     }
+
     .post .image ul li.views:before {
         content: "";
         display: inline-block;
@@ -44,21 +44,24 @@
         background-size: contain;
         vertical-align: middle;
     }
-    .post .image ul li.likes:before {
-        content: "";
+
+    .post .image ul li .like {
         display: inline-block;
         width: 30px;
         height: 30px;
         background: url("/media/images/mains/like.png") no-repeat center;
         background-size: contain;
         vertical-align: middle;
+        box-sizing: border-box;
     }
+
     .post .image ul li span {
         vertical-align: middle;
         font-weight: bold;
         color: #fff;
         padding-left: 10px;
     }
+
     .post .image ul li a {
         color: #fff;
         text-decoration: none;
@@ -67,19 +70,28 @@
         font-size: 16px;
     }
 </style>
-{% for post in posts %}
-    <div class="post">
-        <h2>{{ post.name }}</h2>
-        <div class="image" style="background-image: url({% set img = post.getImage() %}{{ img ? img.url : 'https://neilpatel.com/wp-content/uploads/2017/02/blogging.jpg' }});">
-            <ul>
-                <li class="views"><span>{{ post.views }}</span></li>
-                <li class="likes"><span>{{ post.likes }}</span></li>
-                <li><a href="/post/details/{{ post.id }}">more...</a></li>
-            </ul>
-        </div>
-        <div class="details">
-            {{ post.text|raw }}
-        </div>
+
+<div class="post">
+    <h2>{{ post.name }}</h2>
+    <div class="image"
+         style="background-image: url({% set img = post.getImage() %}{{ img ? img.url : 'https://neilpatel.com/wp-content/uploads/2017/02/blogging.jpg' }});">
+        <ul>
+            <li class="views"><span>{{ post.views }}</span></li>
+            <li class="likes">
+                {% if auth.isAuth() %}
+                    <a href="/post/like/{{ post.id }}" class="like"
+                            {% if liked %}
+                                style="background-image: url('/media/images/mains/liked.png')"
+                            {% endif %}
+                    ></a>
+                {% else %}
+                    <div class="like"></div>
+                {% endif %}
+                <span>{{ post.likes }}</span>
+            </li>
+        </ul>
     </div>
-{% endfor %}
-{{ paginator ? paginator|raw: "" }}
+    <div class="details">
+        {{ post.text|raw }}
+    </div>
+</div>

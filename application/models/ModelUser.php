@@ -32,7 +32,7 @@ class ModelUser extends Model
         $user->fromAssoc($this->db->users->getElementById($id));
         return $user;
     }
-
+    
     public function addProfileId(int $id)
     {
         $this->db->users->updateById($id,["profile_id"=>$id]);

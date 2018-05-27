@@ -70,6 +70,7 @@ class ControllerAuth extends Controller
     {
         if (!ModuleAuth::instance()->isAuth()) $this->redirect(URLROOT);
         ModuleAuth::instance()->logout();
+        $_SESSION["views"] = [];
         $this->redirect(URLROOT);
     }
 
@@ -77,6 +78,7 @@ class ControllerAuth extends Controller
     {
         if (!ModuleAuth::instance()->isAuth()) $this->redirect(URLROOT);
         ModuleAuth::instance()->logout(true);
+        $_SESSION["views"] = [];
         $this->redirect(URLROOT);
     }
 }
