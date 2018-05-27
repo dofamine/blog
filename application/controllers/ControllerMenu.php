@@ -44,7 +44,7 @@ class ControllerMenu extends Controller
             ModelPost::instance()->getCountOfPagesByCategory(self::POSTS_PER_PAGE, $id),
             "page", "/categories/{$id}");
         if ($paginator->get()) $view->paginator = $paginator->getResponse();
-        $view->posts = ModelPost::instance()->getPostsByPageAndByCategories($paginator->getPage(), self::POSTS_PER_PAGE, $id);
+        $view->posts = ModelPost::instance()->getPostsByPageAndByCategories($paginator->getPage(),self::POSTS_PER_PAGE, $id);
         $this->response($view);
     }
 }
