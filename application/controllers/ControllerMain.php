@@ -47,9 +47,14 @@ class ControllerMain extends Controller
         if(!empty($_SESSION["validate_error"])){
             $view->error = $_SESSION["validate_error"];
             $view->old = $_SESSION["old"];
-            unset($_SESSION["validate_error"]);
-            unset($_SESSION["old"]);
         }
+        if (!empty($_SESSION["data_error"])){
+            $view->data_error = $_SESSION["data_error"];
+            $view->old = $_SESSION["old"];
+        }
+        unset($_SESSION["validate_error"]);
+        unset($_SESSION["old"]);
+        unset($_SESSION["data_error"]);
         $this->response($view);
     }
 }

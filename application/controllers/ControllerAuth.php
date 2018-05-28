@@ -15,26 +15,37 @@ class ControllerAuth extends Controller
         }
         return false;
     }
+    private function oldValues(array $arr){
+        $_SESSION["old"] = $arr;
 
+    }
     public function action_register()
     {
-        $login = trim(@$_POST["login"]);
-        $pass = trim(@$_POST["pass"]);
-        $pass_c = trim(@$_POST["conf"]);
-        $mail = trim(@$_POST["mail"]);
-        $phone = trim(@$_POST["phone"]);
+        ModuleValidator::trimArray($_POST);
         $photo = @$_FILES["photo"];
-
+        extract($_POST);
+        $validator = new ModuleValidator($_POST);
+        $validator->addRule("login","validate error login",ModuleValidate::getBuilder()->containsLower()->len(4,6));
+        $validator->addRule("pass","validate error pass",ModuleValidate::getBuilder()->password()->withoutSpaces());
+        $validator->addRule("conf","validate error conf",ModuleValidate::getBuilder()->password()->withoutSpaces());
+        $_SESSION["data_error"] = [];
+        if (!$validator->execValidation($_SESSION["data_error"])){
+            $this->oldValues([
+                "login" => $login,
+                "mail" => $mail,
+                "phone" => $phone
+            ]);
+            $this->redirect($_SERVER["HTTP_REFERER"]);
+            return;
+        }
         try {
-            if (self::is_empty($login, $pass, $pass_c, $mail, $phone))
-                throw new Exception("Enter all fields");
-            if ($pass_c !== $pass) throw new Exception("Passwords are not similar");
+            if (ModuleValidator::isSomeEmpty($_POST)) throw new Exception("Enter all fields");
+            if ($conf !== $pass) throw new Exception("Passwords are not similar");
             try {
                 $user_id = ModuleAuth::instance()->register($login, $pass,
                     ["email" => $mail, "phone" => $phone]);
                 if ( $photo["size"] > 0 ) {
                     ModelImages::instance()->addAvatar($user_id,$photo);
-
                 }
                 $this->redirect(URLROOT);
             } catch (Exception $e) {
@@ -42,11 +53,11 @@ class ControllerAuth extends Controller
             }
         } catch (Exception $e) {
             $_SESSION["validate_error"] = $e->getMessage();
-            $_SESSION["old"] = [
-                "login" => @$_POST["login"],
-                "mail" => @$_POST["mail"],
-                "phone" => @$_POST["phone"]
-            ];
+            $this->oldValues([
+                "login" => $login,
+                "mail" => $mail,
+                "phone" => $phone
+            ]);
             $this->redirect(URLROOT . "register");
         }
     }

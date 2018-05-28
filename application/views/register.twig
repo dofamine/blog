@@ -7,11 +7,20 @@
         {% endif %}
         <dl>
             <dt><label for="login">Login :</label></dt>
-            <dd><input type="text" name="login" id="login" value="{{ old.login ? old.login : "" }}"></dd>
+            <dd>
+                <input type="text" name="login" id="login" value="{{ old.login ? old.login : "" }}">
+                <b>{{ data_error.login ? data_error.login : "" }}</b>
+            </dd>
             <dt><label for="pass">Password :</label></dt>
-            <dd><input type="password" name="pass" id="pass"></dd>
+            <dd>
+                <input type="password" name="pass" id="pass">
+                <b>{{ data_error.pass ? data_error.pass : "" }}</b>
+            </dd>
             <dt><label for="conf">Confirm :</label></dt>
-            <dd><input type="password" name="conf" id="conf"></dd>
+            <dd>
+                <input type="password" name="conf" id="conf">
+                <b>{{ data_error.conf ? data_error.conf : "" }}</b>
+            </dd>
             <dt><label for="mail">Email :</label></dt>
             <dd><input type="email" name="mail" id="mail" value="{{ old.mail ? old.mail : "" }}"></dd>
             <dt><label for="phone">Phone :</label></dt>
